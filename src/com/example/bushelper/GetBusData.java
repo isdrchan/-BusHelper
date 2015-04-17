@@ -7,13 +7,10 @@ import java.util.ArrayList;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import com.example.bushelper.GetLocation.Location;
 
 import android.util.Log;
 
@@ -52,6 +49,7 @@ public class GetBusData {
 		String result = null;
 		
 		HttpClient client = new DefaultHttpClient();
+		
 		HttpGet request = new HttpGet(url + "?app_key=" + appKey + "&alt=json&city=" + city + "&q=" + keyword);
         
         // ÷¥––«Î«Û  

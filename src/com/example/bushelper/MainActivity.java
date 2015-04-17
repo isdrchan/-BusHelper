@@ -46,6 +46,8 @@ public class MainActivity extends Activity {
 	    	//请求数据
 	    	GetLocation getLocation = new GetLocation();
 	    	try {
+//	    		GetTransfer gt = new GetTransfer();
+//	    		gt.run("珠海", "北理工", "圆明新园");
 	    		location = getLocation.run();
 	    		data.putString("status", "OK");
 			} catch (Exception e) {
