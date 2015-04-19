@@ -2,6 +2,7 @@ package com.example.bushelper;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -23,7 +24,8 @@ public class MainActivity extends Activity {
 	
 	private WebView webview;
 	private String status;
-	Location location;
+	private Location location;
+	private ProgressDialog pd; //进度条对话框
 	private final String url = "file:///android_asset/index.html";
 	
 	//创建Handler对象
@@ -52,6 +54,7 @@ public class MainActivity extends Activity {
 	    		data.putString("status", "OK");
 			} catch (Exception e) {
 				e.printStackTrace();
+				data.putString("status", "false");
 			}
 			
 	        msg.setData(data);
@@ -63,6 +66,9 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		//显示progressdialog
+		pd = ProgressDialog.show(this, "请稍等", "正在获取您的位置...", false);
 		
 		webview = (WebView) findViewById(R.id.webView);
 		
@@ -108,6 +114,9 @@ public class MainActivity extends Activity {
 		 		if(status.equals("OK")) {
 		 			webview.loadUrl("javascript:setCity('" + location.city + "','" + location.fullName + "')");
 		 		}
+		 		
+		 		//页面加载完成后关闭progressdialog
+		 		pd.dismiss();
 		 	}
 	 }
 	 
@@ -124,7 +133,7 @@ public class MainActivity extends Activity {
 			// 当前网络不可用
 			Toast.makeText(getApplicationContext(), "请打开手机的网络连接", Toast.LENGTH_SHORT).show();
 		} else if(city.equals("") || keyword.equals("")) {
-			Toast.makeText(getApplicationContext(), "请输入城市名称或公交线路", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getApplicationContext(), "请正确输入城市名称或公交线路", Toast.LENGTH_SHORT).show();
 		} else {
 			//去掉字符串首尾的空格  
 			city = city.trim();
@@ -136,5 +145,28 @@ public class MainActivity extends Activity {
 			startActivity(intent);
 		}
 	 }
-
+	 
+	 @JavascriptInterface
+	 public void callTransferActivity(String city, String here, String there) {
+		//判断是否有网络连接
+		ConnectivityManager con = (ConnectivityManager) MainActivity.this.getSystemService(Context.CONNECTIVITY_SERVICE);  
+		NetworkInfo networkinfo = con.getActiveNetworkInfo();
+		if (networkinfo == null || !networkinfo.isAvailable()) {
+			// 当前网络不可用
+			Toast.makeText(getApplicationContext(), "请打开手机的网络连接", Toast.LENGTH_SHORT).show();
+		} else if(city.equals("") || here.equals("") || there.equals("")) {
+			Toast.makeText(getApplicationContext(), "请正确输入城市名、所在地和目的地", Toast.LENGTH_SHORT).show();
+		} else {
+			//去掉字符串首尾的空格  
+			city = city.trim();
+			here = here.trim();
+			there = there.trim();
+			
+			Intent intent = new Intent(MainActivity.this, TransferActivity.class);
+			intent.putExtra("city", city);
+			intent.putExtra("here", here);
+			intent.putExtra("there", there);
+			startActivity(intent);
+		}
+	 }
 }

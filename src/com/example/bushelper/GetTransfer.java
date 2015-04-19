@@ -93,7 +93,6 @@ public class GetTransfer {
 			JSONArray segmentArr = new JSONArray(segments.getString("segment"));
 			
 			transfer.dist = busObject.getInt("dist");
-			System.out.println(transfer.dist + "sdfsdf");
 			transfer.time = busObject.getInt("time");
 			transfer.foot_dist = busObject.getInt("foot_dist");
 			transfer.last_foot_dist = busObject.getInt("last_foot_dist");

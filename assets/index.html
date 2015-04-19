@@ -21,7 +21,7 @@
       background: #1E5B94;
       color: #fff;
       text-align: center;
-      padding: 100px 0;
+      padding: 70px 0;
     }
 
     .get-title {
@@ -161,8 +161,8 @@
  
 <div align="center" style="width:100%;padding:30px;padding-bottom:80px;">
 	<input type="text" id="city2" class="am-form-field am-round" placeholder="城市名，如珠海" style="width:40%;float:left;"/>
-	<input type="text" id="here" class="am-form-field am-round" placeholder="目的地" style="width:30%;float:right;"/>
-	<input type="text" id="there" class="am-form-field am-round" placeholder="起始地" style="width:30%;float:right;"/>
+	<input type="text" id="there" class="am-form-field am-round" placeholder="目的地" style="width:30%;float:right;"/>
+	<input type="text" id="here" class="am-form-field am-round" placeholder="起始地" style="width:30%;float:right;"/>
 </div>
 	
 <div align="center"><button type="button" class="am-btn am-btn-primary am-round" onclick="javascript:btnOnclick2();"><i class="am-icon-search"></i> 查 询</button>
@@ -174,7 +174,6 @@
 
 
 
-<br>
 
 <div align="center"><span id="message" style="maigin:100px;" class="am-badge am-badge-success am-round am-text-sm">未检测到您所在的城市，请手动输入</span></div>
 
@@ -194,6 +193,12 @@ function btnOnclick() {
 	var city = $("#city").val();
 	var keyword = $("#keyword").val();
 	window.android.callDetailActivity(city, keyword);
+}
+function btnOnclick2() {
+	var city = $("#city").val();
+	var here = $("#here").val();
+	var there = $("#there").val();
+	window.android.callTransferActivity(city, here, there);
 }
 </script>
 </body>

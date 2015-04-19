@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,11 +20,12 @@ import com.example.bushelper.GetBusData.BusData;
 @SuppressLint("JavascriptInterface")
 public class DetailActivity extends Activity {
 	
-	String city;
-	String keyword;
-	String status;
-	ArrayList<BusData> busDataList;
-	GetBusData getbusdata = new GetBusData();
+	private String city;
+	private String keyword;
+	private String status;
+	private ArrayList<BusData> busDataList;
+	private ProgressDialog pd; //进度条对话框
+	private GetBusData getbusdata = new GetBusData();
 	private final String url = "file:///android_asset/detail.html";
 	private WebView webview;
 	
@@ -63,6 +65,9 @@ public class DetailActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		//显示progressdialog
+		pd = ProgressDialog.show(this, "请稍等", "正在查询中...", false);
 		
 		webview = (WebView) findViewById(R.id.webView);
 		
@@ -128,6 +133,9 @@ public class DetailActivity extends Activity {
 			 		Toast.makeText(getApplicationContext(), "没有找到相关的公交线路~", Toast.LENGTH_SHORT).show();
 			 		DetailActivity.this.finish();
 			 	}
+		 		
+		 		//页面加载完成后关闭progressdialog
+		 		pd.dismiss();
 		 	}
 	 }
 	 
